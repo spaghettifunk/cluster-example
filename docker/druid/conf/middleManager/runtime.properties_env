@@ -1,0 +1,48 @@
+# General
+druid.service=druid/${DRUID_SERVICE}
+druid.host=${DRUID_HOST}
+#druid.worker.ip=${DRUID_HOST}
+druid.plaintextPort=${DRUID_SERVICE_PORT}
+
+# HTTP server threads
+druid.server.http.numThreads=9
+
+# Indexing
+druid.worker.capacity=2
+druid.indexer.runner.startPort=7081
+
+# Processing
+druid.indexer.fork.property.druid.processing.buffer.sizeBytes=256000000
+druid.indexer.fork.property.druid.processing.numThreads=2
+
+# Logging
+druid.monitoring.monitors=["org.apache.druid.java.util.metrics.JvmMonitor"]
+druid.indexer.fork.property.druid.monitoring.monitors=["org.apache.druid.java.util.metrics.JvmMonitor"]
+
+# Peon Deep Storage
+druid.indexer.fork.property.druid.storage.baseKey=druid/segments
+druid.indexer.fork.property.druid.storage.bucket=${BUCKET_STORAGE}
+druid.indexer.fork.property.druid.storage.type=s3
+
+# Peon
+druid.indexer.task.restoreTasksOnRestart=true
+druid.indexer.runner.javaOpts=${JVM_PEONS_ARGS}
+
+# Hadoop
+druid.indexer.task.hadoopWorkingPath=hdfs://${HDFS_URL}:8020/var/druid/hadoop-tmp
+druid.indexer.runner.type=remote
+
+hadoop.fs.defaultFS=hdfs://${HDFS_URL}:8020
+hadoop.yarn.resourcemanager.hostname=${HDFS_URL}
+hadoop.yarn.application.classpath=$HADOOP_CONF_DIR,$HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,$HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,$HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,$HADOOP_YARN_HOME/*,$HADOOP_YARN_HOME/lib/*,/usr/lib/hadoop-lzo/lib/*,/usr/share/aws/emr/emrfs/conf,/usr/share/aws/emr/emrfs/lib/*,/usr/share/aws/emr/emrfs/auxlib/*,/usr/share/aws/emr/lib/*,/usr/share/aws/emr/ddb/lib/emr-ddb-hadoop.jar,/usr/share/aws/emr/goodies/lib/emr-hadoop-goodies.jar,/usr/share/aws/emr/kinesis/lib/emr-kinesis-hadoop.jar,/usr/share/aws/emr/cloudwatch-sink/lib/*
+hadoop.mapreduce.framework.name=yarn
+
+hadoop.fs.s3n.impl=org.apache.hadoop.fs.s3native.NativeS3FileSystem"
+hadoop.fs.s3n.awsAccessKeyId=${AWS_ACCESS_KEY}
+hadoop.fs.s3n.awsSecretAccessKey=${AWS_SECRET_KEY}
+
+hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.NativeS3FileSystem"
+hadoop.fs.s3.awsAccessKeyId=${AWS_ACCESS_KEY}
+hadoop.fs.s3.awsSecretAccessKey=${AWS_SECRET_KEY}
+
+hadoop.io.compression.codecs=org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec
